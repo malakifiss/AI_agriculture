@@ -2,7 +2,7 @@ import joblib
 import numpy as np
 
 def load_model():
-    model = joblib.load("models/crop_classifier.pkl")
+    model = joblib.load("models/crop_yield_model.pkl")
     encoder = joblib.load("models/label_encoder.pkl")
     return model, encoder
 
