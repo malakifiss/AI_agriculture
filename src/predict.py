@@ -2,23 +2,26 @@ import joblib
 import numpy as np
 
 def load_model():
-    model = joblib.load("models/crop_yield_model.pkl")
+    model = joblib.load("models/crop_classifier.pkl")
     encoder = joblib.load("models/label_encoder.pkl")
     return model, encoder
 
-def predict_crop(input_data):
+def predict_crop(features):
     model, encoder = load_model()
 
-    features = np.array([[
-        input_data["N"],
-        input_data["P"],
-        input_data["K"],
-        input_data["temperature"],
-        input_data["humidity"],
-        input_data["ph"],
-        input_data["rainfall"]
-    ]])
+    X = np.array([
+        [
+            features["N"],
+            features["P"],
+            features["K"],
+            features["temperature"],
+            features["humidity"],
+            features["ph"],
+            features["rainfall"]
+        ]
+    ])
 
-    prediction = model.predict(features)[0]
-    crop_name = encoder.inverse_transform([prediction])[0]
-    return crop_name
+    prediction = model.predict(X)
+    crop = encoder.inverse_transform(prediction)[0]
+
+    return crop
