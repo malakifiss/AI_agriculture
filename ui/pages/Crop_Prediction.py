@@ -5,15 +5,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 
 from src.predict import predict_crop
 from components.styles import create_feature_card
+# Page Config
+st.set_page_config(
+    page_title="Crop Prediction",
+    page_icon="🌱",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+# Load Font Awesome
+st.markdown("""
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+""", unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-header">Crop Prediction</h1>', unsafe_allow_html=True)
-
+st.markdown("""
+<h1 class="main-header">
+    <i class="fa-solid fa-seedling" 
+       style="color: #2E8B57; margin-right: 10px;"></i>
+    Crop Prediction
+</h1>
+""", unsafe_allow_html=True)
 st.markdown(create_feature_card(
     "AI-Powered Crop Recommendation", 
     "Enter your soil and environmental conditions to receive optimal crop recommendations based on machine learning analysis.",
-    "🤖"
+    "<i class='fa-solid fa-wand-magic-sparkles'></i>"
 ), unsafe_allow_html=True)
-
 # Input Section
 st.markdown('<div class="section-header">Environmental Parameters</div>', unsafe_allow_html=True)
 

@@ -3,16 +3,32 @@ import pandas as pd
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
+# Page Config
+st.set_page_config(
+    page_title="Crop Growing Guide",
+    page_icon="🌱",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 # Load dataset
 @st.cache_data
 def load_data():
     return pd.read_csv("data/crop_yield.csv")
 
 df = load_data()
+# Load Font Awesome
+st.markdown("""
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+""", unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-header">Crop Growing Guide</h1>', unsafe_allow_html=True)
-
+st.markdown("""
+<h1 class="main-header">
+    <i class="fa-solid fa-seedling" 
+       style="color: #2E8B57; margin-right: 10px;"></i>
+    Crop Growing Guide
+</h1>
+""", unsafe_allow_html=True)
 st.markdown("""
 <div style='margin-bottom: 2rem;'>
     <p style='color: #666; line-height: 1.6;'>

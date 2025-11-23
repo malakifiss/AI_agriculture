@@ -6,6 +6,18 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from components.styles import create_metric_card, create_feature_card
+# Page Config
+st.set_page_config(
+    page_title="Fruits and Vegetables Dashboard",
+    page_icon="🌱",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+# Load Font Awesome
+st.markdown("""
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+""", unsafe_allow_html=True)
 
 # Load dataset
 @st.cache_data
@@ -14,46 +26,52 @@ def load_data():
 
 df = load_data()
 
-# Page content
-st.markdown('<h1 class="main-header">Agriculture AI Assistant</h1>', unsafe_allow_html=True)
+# PAGE TITLE WITH ICON
+st.markdown("""
+<h1 class="main-header">
+    <i class="fa-solid fa-leaf" style="color:#2E8B57;"></i> 
+    Agriculture AI Assistant
+</h1>
+""", unsafe_allow_html=True)
 
-# Introduction
+# INTRODUCTION
 st.markdown("""
 <div style='text-align: center; margin-bottom: 3rem;'>
     <p style='color: #666; font-size: 1.1rem; line-height: 1.6;'>
         Advanced agricultural intelligence platform providing data-driven insights 
-        for optimal crop selection and soil management.
+        for optimal crop selection, soil management, and growing recommendations.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# Feature Cards
+# FEATURE CARDS
 st.markdown('<div class="section-header">Core Features</div>', unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown(create_feature_card(
-        "Crop Prediction", 
-        "AI-powered recommendations for optimal crop selection based on soil and climate conditions.",
-        "🌿"
+        "<i class='fa-solid fa-seedling' style='margin-right:8px;'></i> Crop Prediction", 
+        "AI-powered recommendations for choosing the right crop.",
+        None  # No icon on top
     ), unsafe_allow_html=True)
 
 with col2:
     st.markdown(create_feature_card(
-        "Growing Guide", 
-        "Comprehensive information on ideal conditions and requirements for various crops.",
-        "📊"
+        "<i class='fa-solid fa-book-open' style='margin-right:8px;'></i> Growing Guide", 
+        "Ideal conditions & growing requirements for each crop.",
+        None
     ), unsafe_allow_html=True)
 
 with col3:
     st.markdown(create_feature_card(
-        "Soil Analysis", 
-        "Detailed soil quality assessment and improvement recommendations.",
-        "🧪"
+        "<i class='fa-solid fa-vial' style='margin-right:8px;'></i> Soil Analysis", 
+        "Detailed evaluation of soil nutrients & pH balance.",
+        None
     ), unsafe_allow_html=True)
 
-# Quick Stats
+
+# QUICK STATS
 st.markdown('<div class="section-header">Agricultural Insights</div>', unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
@@ -74,7 +92,7 @@ with col4:
     avg_ph = df["ph"].mean()
     st.markdown(create_metric_card(f"{avg_ph:.1f}", "Avg Soil pH"), unsafe_allow_html=True)
 
-# Crop Distribution
+# CROP DISTRIBUTION
 st.markdown('<div class="section-header">Crop Distribution</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns([2, 1])
@@ -86,15 +104,44 @@ with col1:
 with col2:
     st.markdown("""
     <div class="info-box">
-        <h4 style='margin: 0 0 0.5rem 0; color: #1565C0;'>Dataset Overview</h4>
+        <h4 style='margin: 0 0 0.5rem 0; color: #1565C0;'>
+            <i class="fa-solid fa-circle-info"></i> Dataset Overview
+        </h4>
         <p style='margin: 0; color: #455A64;'>
-            The dataset contains information on various crops with detailed 
-            environmental and soil parameter measurements.
+            This dataset contains soil nutrients, climate conditions, and
+            crop labels used to train the prediction model.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-# Supported Crops
+
+# Mapping crop names to Font Awesome icons
+CROP_ICONS = {
+    "apple": "🍎",
+    "banana": "🍌",
+    "blackgram": "🫘",
+    "chickpea": "🥙",
+    "coconut": "🥥",
+    "coffee": "🌰",
+    "cotton": "🧵",
+    "grapes": "🍇",
+    "jute": "🪢",
+    "kidneybeans": "🫘",
+    "lentil": "🥣",
+    "maize": "🌽",
+    "mango": "🥭",
+    "mothbeans": "🫘",
+    "mungbean": "🫘",
+    "muskmelon": "🍈",
+    "orange": "🍊",
+    "papaya": "🟠",
+    "pigeonpeas": "🌱",
+    "pomegranate": "🍎",
+    "rice": "🍚",
+    "watermelon": "🍉"
+}
+
+# SUPPORTED CROPS
 st.markdown('<div class="section-header">Supported Crops</div>', unsafe_allow_html=True)
 
 crops = sorted(df["label"].unique())
@@ -106,13 +153,15 @@ for i in range(rows):
     for j in range(cols):
         idx = i * cols + j
         if idx < len(crops):
+            crop = crops[idx]
+            icon = CROP_ICONS.get(crop, "🌱")  # fallback icon
             with col_list[j]:
-                st.info(crops[idx])
+                st.info(f"{icon} {crop.capitalize()}")
 
-# Footer
+# FOOTER
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #666; padding: 2rem; font-size: 0.9rem;'>
-    <p>Agriculture AI Assistant • Data-Driven Farming Solutions</p>
+    <p>Agriculture AI Assistant • Smart Farming Solutions</p>
 </div>
 """, unsafe_allow_html=True)

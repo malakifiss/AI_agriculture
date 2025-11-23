@@ -1,3 +1,4 @@
+import streamlit as st
 def load_css():
     """Load custom CSS styles"""
     st.markdown("""
@@ -164,12 +165,15 @@ def create_metric_card(value, label):
     """
 
 def create_feature_card(title, description, icon=None):
-    """Create a feature card"""
-    icon_html = f"<div style='font-size: 2rem; text-align: center; margin-bottom: 1rem;'>{icon}</div>" if icon else ""
+    """Create a feature card with icon next to the title"""
+
+    icon_html = f"<span style='font-size: 1.5rem; margin-right: 0.5rem;'>{icon}</span>" if icon else ""
+
     return f"""
     <div class="feature-card">
-        {icon_html}
-        <h4 style='margin: 0 0 0.5rem 0; color: #2E8B57;'>{title}</h4>
+        <h4 style='margin: 0 0 0.5rem 0; color: #2E8B57; display: flex; align-items: center;'>
+            {icon_html}{title}
+        </h4>
         <p style='margin: 0; color: #666; line-height: 1.5;'>{description}</p>
     </div>
     """
